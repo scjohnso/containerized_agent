@@ -1,0 +1,14 @@
+
+#echo Create agent group
+curl -X POST -H "icSessionid: $SESSION_ID" -H "Content-Type: application/json" -H "Accept: application/json" https://na1.dm-us.informaticacloud.com/saas/api/v2/runtimeEnvironment -d "{\"@type\":\"runtimeEnvironment\", \"name\":\"${agent_group}\"}"
+
+
+docker build --no-cache --build-arg UID=1001 --build-arg GID=1000 -t jtpirate/secure_agent:latest -f "./docker/Dockerfile" .
+docker image push jtpirate/secure_agent:latest
+
+
+kubectl -n secure-agent-test -n secure-agent-test create secret generic infaagent-secret-login --from-literal=username=bbird@de.informatica.com  --from-literal=password=
+
+kubectl apply -f ./kube-manifests/agent_manifest.yml
+
+kubectl rollout restart deployment infaagent -n secure-agent-test

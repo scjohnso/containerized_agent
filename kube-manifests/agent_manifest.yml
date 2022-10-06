@@ -1,0 +1,48 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: infaagent
+  namespace: secure-agent-test # Replace with your namespace.
+  labels:
+    app: infaagent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infaagent
+      release: infaagent
+  template:
+    metadata:
+      labels:
+        app: infaagent
+        release: infaagent
+    spec:
+      serviceAccountName: infaagent
+      imagePullSecrets:
+      - name: imagePullSecret 
+      containers:
+      - name: infaagent
+        image: "jtpirate/secure_agent:latest"
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - bash
+                - -x
+                - -eu
+                - -o
+                - pipefail
+                - -c
+                - echo 'Shutting down agent' && ./abortAgentCore.sh
+        env:
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: infaagent-secret-login
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: infaagent-secret-login
+                key: password
