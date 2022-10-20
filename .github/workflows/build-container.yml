@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -61,3 +61,13 @@ jobs:
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
 
+   # Get the GKE credentials so we can deploy to the cluster
+    - run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    
+    # Deploy sample image to the GKE cluster
+    - name: Deploy
+      run: |-
+        kubectl apply -f ./kube-manifests/agent-manifest.yml
+        kubectl rollout status jtpirate/secure_agent
+        kubectl get services -o wide
