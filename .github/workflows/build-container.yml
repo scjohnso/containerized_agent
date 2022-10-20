@@ -69,5 +69,5 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f ./kube-manifests/agent-manifest.yml
-        kubectl rollout status jtpirate/secure_agent
+        kubectl rollout status deployment/infaagent
         kubectl get services -o wide
