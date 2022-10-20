@@ -1,0 +1,19 @@
+### Required auth for BYOC (Only for AWS and Azure currently)
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: optimized-cluster-role
+rules:
+- apiGroups: [""]
+  resources: ["services","pods","secrets","configmaps"]
+  verbs: ["watch","list","get","create","update","patch","delete","deletecollection"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["watch","list","get","create","update","patch","delete","deletecollection"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["watch","list","get","patch"]
+- apiGroups: [""]
+  resources: ["namespaces","persistentvolumeclaims"]
+  verbs: ["watch","list","get"]

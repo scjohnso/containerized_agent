@@ -1,3 +1,5 @@
+### Used deployment manifest to deploy SA to kube
+
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -11,19 +13,28 @@ spec:
     matchLabels:
       app: infaagent
       release: infaagent
+      #aadpodidbinding: ps-de-managed-ident-cdie
   template:
     metadata:
       labels:
         app: infaagent
         release: infaagent
+        #aadpodidbinding: ps-de-managed-ident-cdie
     spec:
       serviceAccountName: infaagent
       imagePullSecrets:
-      - name: imagePullSecret 
+      - name: imagePullSecret
       containers:
       - name: infaagent
         image: "jtpirate/secure_agent:latest"
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 24G
+            cpu: "6"
+          limits:
+            memory: 24G
+            cpu: "6"
         lifecycle:
           preStop:
             exec:
@@ -34,7 +45,7 @@ spec:
                 - -o
                 - pipefail
                 - -c
-                - echo 'Shutting down agent' && ./abortAgentCore.sh
+                - echo 'Shutting down agent' && ./abortAgentCore.sh && iics-remove-agent.sh ${HOSTNAME} ${USERNAME} ${PASSWORD}
         env:
           - name: USERNAME
             valueFrom:

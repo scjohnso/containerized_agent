@@ -1,0 +1,7 @@
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: ps-de-managed-ident-cdie-binding
+spec:
+  azureIdentity: ps-de-managed-ident-cdie-identity
+  selector: ps-de-managed-ident-cdie

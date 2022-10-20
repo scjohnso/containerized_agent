@@ -32,31 +32,35 @@ RUN ulimit -n 32768;
 RUN export LC_ALL=C.utf8
 RUN ln -s /usr/lib64/libnsl.so.2.0.0 /usr/lib64/libnsl.so.1 
 
-# Copy the login scripts from your local machine onto the Docker container.
+# Copy the login/cleanup scripts from your local machine onto the Docker container.
 COPY ../scripts/login-agent.sh /usr/bin
-
-# Add additional COPY commands if you have any third-party, ODBC, or JDBC binaries and configuration files to copy to the Docker container
+COPY ../scripts/iics-remove-agent.sh /usr/bin
 
 # Create a user on the container for the agent process to use. Change the ownership and permissions of the login scripts so that the agent user can run them.
 RUN groupadd -g $GID agent \
 && useradd -ms /bin/bash -l -u $UID -g $GID agent \
 && chown agent:agent /usr/bin/login-agent.sh \
-&& chmod a+x /usr/bin/login-agent.sh
+&& chmod a+x /usr/bin/login-agent.sh \
+&& chown agent:agent /usr/bin/iics-remove-agent.sh \
+&& chmod a+x /usr/bin/iics-remove-agent.sh
 USER agent
 
 WORKDIR ${INFA_HOME}
 
 # Get the latest version of the secure
-RUN curl -o ./${AGENT_FILE} ${AGENT_DOWNLOAD} && \
-    chmod 775 ./${AGENT_FILE} && \
+RUN curl -o ./${AGENT_FILE} -L ${AGENT_DOWNLOAD} && \
+    chmod a+x ./${AGENT_FILE} && \
     ./${AGENT_FILE} -i silent -DUSER_INSTALL_DIR=${INFA_SA_HOME} && \
     printf "\nInfaAgent.GroupName=${RUNTIME_ENV}" >> ${INFA_SA_HOME}/apps/agentcore/conf/infaagent.ini \
     && rm ${INFA_HOME}/${AGENT_FILE}
 
-
+# Add additional COPY commands if you have any third-party, ODBC, or JDBC binaries and configuration files to copy to the Docker container
+COPY gcp-kubeconfig-ss ${INFA_HOME}
 
 # Copy the entrypoint script onto the Docker container.
 COPY ../scripts/entrypoint.sh ${INFA_SA_HOME}/apps/agentcore/
+
+
 USER root
 RUN chown agent:agent ${INFA_SA_HOME}/apps/agentcore/entrypoint.sh && chmod a+x ${INFA_SA_HOME}/apps/agentcore/entrypoint.sh
 USER agent

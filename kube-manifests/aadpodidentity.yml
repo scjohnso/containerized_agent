@@ -1,0 +1,10 @@
+### Required for AAD to used Managed Identity to be able to deployed elastic cluster.
+
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: ps-de-managed-ident-cdie-identity
+spec:
+  type: 0
+  resourceID: /subscriptions/950a5f1a-97b6-4c9c-b79b-e32d951b5e66/resourcegroups/rg-NA-DataOps-CDIe/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ps_de_managed_ident_cdie
+  clientID: f82e1c18-ed56-427b-8502-ff3f64499df9
