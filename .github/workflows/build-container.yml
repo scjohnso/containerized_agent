@@ -8,6 +8,7 @@ env:
   GKE_CLUSTER: gke-cdie-cluster
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: infaagent
+  NAMESPACE: secure-agent-test
 
 jobs:
   docker:
@@ -69,5 +70,5 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f ./kube-manifests/agent-manifest.yml
-        kubectl rollout status deployment/infaagent
+        kubectl rollout status --namespace=${NAMESPACE} deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
