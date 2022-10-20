@@ -6,7 +6,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: gke-cdie-cluster
-  GKE_ZONE: eus-central1-c
+  GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: infaagent
 
 jobs:
