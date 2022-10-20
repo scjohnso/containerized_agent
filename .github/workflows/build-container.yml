@@ -6,6 +6,7 @@ on:
 
 jobs:
   docker:
+    name: "Build secure agent docker image"
     runs-on: ubuntu-latest
     steps:
       -
