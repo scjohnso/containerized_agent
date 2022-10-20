@@ -54,9 +54,6 @@ RUN curl -o ./${AGENT_FILE} -L ${AGENT_DOWNLOAD} && \
     printf "\nInfaAgent.GroupName=${RUNTIME_ENV}" >> ${INFA_SA_HOME}/apps/agentcore/conf/infaagent.ini \
     && rm ${INFA_HOME}/${AGENT_FILE}
 
-# Add additional COPY commands if you have any third-party, ODBC, or JDBC binaries and configuration files to copy to the Docker container
-COPY gcp-kubeconfig-ss ${INFA_HOME}
-
 # Copy the entrypoint script onto the Docker container.
 COPY ../scripts/entrypoint.sh ${INFA_SA_HOME}/apps/agentcore/
 
