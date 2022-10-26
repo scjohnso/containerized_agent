@@ -10,9 +10,9 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: gke-informatica-containers
   GKE_ZONE: us-central1-c
-  DEPLOYMENT_NAME: infaagent
+  DEPLOYMENT_NAME: infaagent-sql
   NAMESPACE: secure-agent-test
-  AGENT_COUNT: 1
+  RUNTIME_ENV: container_sql_test
 
 jobs:
   docker:
@@ -42,8 +42,8 @@ jobs:
           build-args: |
             UID=1001
             GID=1000
-            RUNTIME_ENV=container_sql_test           
-          tags: jtpirate/secure_agent:latest
+            RUNTIME_ENV=${RUNTIME_ENV}
+          tags: jtpirate/${DEPLOYMENT_NAME}:latest
   gke:
     name: "Deploy app to gke"
     runs-on: ubuntu-latest
@@ -71,6 +71,6 @@ jobs:
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
-        kubectl apply -f ./kube-manifests/agent-manifest.yml
+        kubectl apply -f ./kube-manifests/${DEPLOYMENT_NAME}-manifest.yml
         kubectl rollout status --namespace=${NAMESPACE} deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide

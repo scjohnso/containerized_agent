@@ -1,0 +1,59 @@
+### Used deployment manifest to deploy SA to kube
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: infaagent-sql
+  namespace: secure-agent-test # Replace with your namespace.
+  labels:
+    app: infaagent-sql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infaagent-sql
+      release: infaagent-sql
+      #aadpodidbinding: ps-de-managed-ident-cdie
+  template:
+    metadata:
+      labels:
+        app: infaagent-sql
+        release: infaagent-sql
+        #aadpodidbinding: ps-de-managed-ident-cdie
+    spec:
+      serviceAccountName: infaagent-sql
+      imagePullSecrets:
+      - name: imagePullSecret
+      containers:
+      - name: infaagent-sql
+        image: "jtpirate/infaagent-sql:latest"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 28G
+            cpu: "7"
+          limits:
+            memory: 28G
+            cpu: "7"
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - bash
+                - -x
+                - -eu
+                - -o
+                - pipefail
+                - -c
+                - echo 'Shutting down agent' && ./abortAgentCore.sh && iics-remove-agent.sh ${HOSTNAME} ${USERNAME} ${PASSWORD}
+        env:
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: infaagent-secret-login
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: infaagent-secret-login
+                key: password

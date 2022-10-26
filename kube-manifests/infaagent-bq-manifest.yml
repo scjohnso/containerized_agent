@@ -3,30 +3,30 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: infaagent
+  name: infaagent-bq
   namespace: secure-agent-test # Replace with your namespace.
   labels:
-    app: infaagent
+    app: infaagent-bq
 spec:
-  replicas: AGENT_COUNT
+  replicas: 3
   selector:
     matchLabels:
-      app: infaagent
-      release: infaagent
+      app: infaagent-bq
+      release: infaagent-bq
       #aadpodidbinding: ps-de-managed-ident-cdie
   template:
     metadata:
       labels:
-        app: infaagent
-        release: infaagent
+        app: infaagent-bq
+        release: infaagent-bq
         #aadpodidbinding: ps-de-managed-ident-cdie
     spec:
-      serviceAccountName: infaagent
+      serviceAccountName: infaagent-bq
       imagePullSecrets:
       - name: imagePullSecret
       containers:
-      - name: infaagent
-        image: "jtpirate/secure_agent:latest"
+      - name: infaagent-bq
+        image: "jtpirate/infaagent-bq:latest"
         imagePullPolicy: Always
         resources:
           requests:
