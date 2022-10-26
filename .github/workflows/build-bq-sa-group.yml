@@ -42,8 +42,8 @@ jobs:
           build-args: |
             UID=1001
             GID=1000
-            RUNTIME_ENV=${RUNTIME_ENV}
-          tags: jtpirate/${DEPLOYMENT_NAME}:latest
+            RUNTIME_ENV=${{ env.RUNTIME_ENV }}
+          tags: jtpirate/${{ env.DEPLOYMENT_NAME }}:latest
   gke:
     name: "Deploy app to gke"
     runs-on: ubuntu-latest
