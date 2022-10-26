@@ -41,7 +41,7 @@ jobs:
         name: Deploy ${{ matrix.deployment }}
         with:
           PROJECT_ID: ${{ env.PROJECT_ID }}
-          DEPLOYMENT_NAME: ${{ matrix.deployments }}
+          DEPLOYMENT_NAME: ${{ matrix.deployment }}
           RUNTIME_ENV: ${{ matrix.runtime_env }}
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

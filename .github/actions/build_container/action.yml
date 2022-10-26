@@ -10,6 +10,9 @@ inputs:
   RUNTIME_ENV:
     description: Name of informatica runtime environment to deploy to
     required: true
+  DEPLOYMENT_NAME:
+    description: Name of deployment. Additionally references manifest files
+    required: true
   DOCKER_USERNAME:
     description: Username to push to docker container
     required: true
@@ -22,9 +25,6 @@ inputs:
   GKE_ZONE:
     description: Name of zone where cluster exists
     default: us-central1-c
-  DEPLOYMENT_NAME:
-    description: Name of deployment. Additionally references manifest files
-    required: true
   NAMESPACE:
     description: Namespace to deploy apps to
     default: secure-agent-test
