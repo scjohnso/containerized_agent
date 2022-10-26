@@ -1,9 +1,6 @@
 name: build-sa-container
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 env:

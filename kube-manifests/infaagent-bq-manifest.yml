@@ -45,7 +45,7 @@ spec:
                 - -o
                 - pipefail
                 - -c
-                - echo 'Shutting down agent' && ./abortAgentCore.sh && iics-remove-agent.sh ${HOSTNAME} ${USERNAME} ${PASSWORD}
+                - echo 'Shutting down agent' && iics-remove-agent.sh ${HOSTNAME} ${USERNAME} ${PASSWORD} && ./abortAgentCore.sh
         env:
           - name: USERNAME
             valueFrom:

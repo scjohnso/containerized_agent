@@ -4,3 +4,5 @@ SESSION_ID=$(curl -X POST -H "Content-Type: application/json" -H "Accept: applic
 
 AGENT_ID=$(curl -H "icSessionid: $SESSION_ID" https://na1.dm-us.informaticacloud.com/saas/api/v2/agent/name/${1} | jq -r '.id')
 curl -X DELETE -H "icSessionid: $SESSION_ID" https://na1.dm-us.informaticacloud.com/saas/api/v2/agent/${AGENT_ID}
+
+echo "Secure agent has tried to be deleted. If only one agent remains, it can't be deleted"

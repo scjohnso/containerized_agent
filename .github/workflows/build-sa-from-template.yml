@@ -1,0 +1,45 @@
+# This sample source code is offered only as an example of what can or might be built using the IICS Github APIs, 
+# and is provided for educational purposes only. This source code is provided "as-is" 
+# and without representations or warrantees of any kind, is not supported by Informatica.
+# Users of this sample code in whole or in part or any extraction or derivative of it 
+# assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
+# arising from any such use to the fullest extent permitted by law.
+
+name: deploy_secure_agents
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy_connections:
+    name: Deploy Secure Agents
+    environment:
+      name: development
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        include:
+          - deployment: infaagent-sql
+            runtime_env: container_sql_test
+          - deployment: infaagent-bq
+            runtime_env: container_bq_test
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/build_container
+        name: Deploy ${{ matrix.deployment }}
+        with:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          DEPLOYMENT_NAME: ${{ matrix.deployments }}
+          RUNTIME_ENV: ${{ matrix.runtime_env }}
