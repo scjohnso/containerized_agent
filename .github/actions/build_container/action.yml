@@ -7,6 +7,15 @@ inputs:
   PROJECT_ID:
     description: Project ID of google project
     required: true
+  RUNTIME_ENV:
+    description: Name of informatica runtime environment to deploy to
+    required: true
+  DOCKER_USERNAME:
+    description: Username to push to docker container
+    required: true
+  DOCKER_TOKEN:
+    description: API token to docker container
+    required: true
   GKE_CLUSTER:
     description: Name of cluster
     default: gke-informatica-containers
@@ -19,8 +28,12 @@ inputs:
   NAMESPACE:
     description: Namespace to deploy apps to
     default: secure-agent-test
-  RUNTIME_ENV:
-    description: Name of informatica runtime environment to deploy to
+  GOOGLE_WORKLOAD_PROVIDER:
+    description: Location of google workload Federation
+    default: projects/493022562702/locations/global/workloadIdentityPools/secure-agent-id-pool/providers/sa-provider
+  GOOGLE_SERVICE_ACCOUNT:
+    description: Service account name for Workload Federation
+    default: gh-deployer@secure-agent-container.iam.gserviceaccount.com
 
 runs:
   using: "composite"
@@ -37,8 +50,8 @@ runs:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
@@ -54,8 +67,8 @@ runs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
-          workload_identity_provider: 'projects/493022562702/locations/global/workloadIdentityPools/secure-agent-id-pool/providers/sa-provider'
-          service_account: 'gh-deployer@secure-agent-container.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_PROVIDER }}
+          service_account: ${{ env.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'

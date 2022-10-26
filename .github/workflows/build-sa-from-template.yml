@@ -43,3 +43,5 @@ jobs:
           PROJECT_ID: ${{ env.PROJECT_ID }}
           DEPLOYMENT_NAME: ${{ matrix.deployments }}
           RUNTIME_ENV: ${{ matrix.runtime_env }}
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
