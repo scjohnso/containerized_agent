@@ -4,13 +4,13 @@ FROM ubuntu:20.04
 
 ARG UID
 ARG GID
+ARG RUNTIME_ENV
 
 ### Note, this is pod specific
 ARG AGENT_DOWNLOAD=https://na1.dm-us.informaticacloud.com/saas/download/installer/linux64/agent64_install_ng_ext.bin
 
 
 # Set environment
-ENV RUNTIME_ENV=accenture_dq_test
 ENV LOGIN_DOMAIN=dm-us
 
 ENV INFA_HOME=/opt/informatica

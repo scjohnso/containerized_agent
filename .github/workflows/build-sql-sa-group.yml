@@ -12,6 +12,7 @@ env:
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: infaagent
   NAMESPACE: secure-agent-test
+  AGENT_COUNT: 1
 
 jobs:
   docker:
@@ -41,6 +42,7 @@ jobs:
           build-args: |
             UID=1001
             GID=1000
+            RUNTIME_ENV=container_sql_test           
           tags: jtpirate/secure_agent:latest
   gke:
     name: "Deploy app to gke"

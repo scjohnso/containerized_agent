@@ -1,0 +1,76 @@
+name: build-sa-container
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: gke-informatica-containers
+  GKE_ZONE: us-central1-c
+  DEPLOYMENT_NAME: infaagent
+  NAMESPACE: secure-agent-test
+  AGENT_COUNT: 3
+
+jobs:
+  docker:
+    name: "Build secure agent docker image"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          build-args: |
+            UID=1001
+            GID=1000
+            RUNTIME_ENV=container_bq_test
+          tags: jtpirate/secure_agent:latest
+  gke:
+    name: "Deploy app to gke"
+    runs-on: ubuntu-latest
+    needs: docker
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/493022562702/locations/global/workloadIdentityPools/secure-agent-id-pool/providers/sa-provider'
+        service_account: 'gh-deployer@secure-agent-container.iam.gserviceaccount.com'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+
+   # Get the GKE credentials so we can deploy to the cluster
+    - run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    
+    # Deploy sample image to the GKE cluster
+    - name: Deploy
+      run: |-
+        cat /kube-manifests/agent-manifest.yml | sed/AGENT_COUNT/${AGENT_COUNT}/ | kubectl apply
+        kubectl rollout status --namespace=${NAMESPACE} deployment/$DEPLOYMENT_NAME
+        kubectl get services -o wide
