@@ -1,4 +1,4 @@
-name: build-sa-container
+name: build-deploy-sql-container-standalone
 
 on:
   workflow_dispatch:

@@ -5,7 +5,7 @@
 # assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
 # arising from any such use to the fullest extent permitted by law.
 
-name: deploy_secure_agents
+name: build-deploy-containers-template
 # Controls when the workflow will run
 on:
   workflow_dispatch:
