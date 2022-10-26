@@ -21,7 +21,7 @@ spec:
         release: infaagent-bq
         #aadpodidbinding: ps-de-managed-ident-cdie
     spec:
-      serviceAccountName: infaagent-bq
+      serviceAccountName: infaagent
       imagePullSecrets:
       - name: imagePullSecret
       containers:
