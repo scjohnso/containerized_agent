@@ -28,8 +28,6 @@ spec:
       - name: infaagent-bq
         image: "jtpirate/infaagent-bq:latest"
         imagePullPolicy: Always
-        nodeSelector:
-          name: infaagent-bq
         resources:
           requests:
             memory: 28G
@@ -59,3 +57,5 @@ spec:
               secretKeyRef:
                 name: infaagent-secret-login
                 key: password
+      nodeSelector:
+        cloud.google.com/gke-nodepool: infaagent-bq
