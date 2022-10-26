@@ -28,13 +28,15 @@ spec:
       - name: infaagent-sql
         image: "jtpirate/infaagent-sql:latest"
         imagePullPolicy: Always
+        nodeSelector:
+          name: infaagent-sql
         resources:
           requests:
-            memory: 28G
-            cpu: "7"
+            memory: 60G
+            cpu: "15"
           limits:
-            memory: 28G
-            cpu: "7"
+            memory: 60G
+            cpu: "15"
         lifecycle:
           preStop:
             exec:

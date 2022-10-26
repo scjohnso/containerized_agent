@@ -28,6 +28,8 @@ spec:
       - name: infaagent-bq
         image: "jtpirate/infaagent-bq:latest"
         imagePullPolicy: Always
+        nodeSelector:
+          name: infaagent-bq
         resources:
           requests:
             memory: 28G
