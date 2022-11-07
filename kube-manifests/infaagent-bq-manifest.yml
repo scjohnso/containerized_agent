@@ -37,6 +37,9 @@ spec:
             memory: 28G
             cpu: "7"
             ephemeral-storage: 50G
+        volumeMounts:
+          - name: ephemeral
+            mountPath: "/opt/"
         lifecycle:
           preStop:
             exec:
