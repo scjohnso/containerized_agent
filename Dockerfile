@@ -24,6 +24,8 @@ locales \
 curl \
 ca-certificates \
 jq \
+libidn \
+libidn-devel \
 && rm -rf /var/lib/apt/lists/*
 RUN locale-gen en_US.UTF-8
 
