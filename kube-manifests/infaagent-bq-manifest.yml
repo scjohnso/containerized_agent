@@ -32,11 +32,11 @@ spec:
           requests:
             memory: 28G
             cpu: "7"
-            ephemeral-storage: 100G
+            ephemeral-storage: 50G
           limits:
             memory: 28G
             cpu: "7"
-            ephemeral-storage: 100G
+            ephemeral-storage: 50G
         volumeMounts:
         - name: infa-storage
           mountPath: "/opt"
@@ -69,7 +69,7 @@ spec:
       volumes:
       - name: infa-storage
         emptyDir:
-          sizeLimit: 50G
+          sizeLimit: 25G
       - name: tmp-storage
         emptyDir:
-          sizeLimit: 50G
+          sizeLimit: 25G
