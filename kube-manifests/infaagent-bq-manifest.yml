@@ -32,14 +32,11 @@ spec:
           requests:
             memory: 28G
             cpu: "7"
-            ephemeral-storage: 50G
+            storage: 100G
           limits:
             memory: 28G
             cpu: "7"
-            ephemeral-storage: 50G
-        volumeMounts:
-          - name: ephemeral
-            mountPath: "/opt/"
+            storage: 100G
         lifecycle:
           preStop:
             exec:
