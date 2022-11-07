@@ -32,11 +32,14 @@ spec:
           requests:
             memory: 28G
             cpu: "7"
-            storage: 100G
+            ephemeral-storage: 100G
           limits:
             memory: 28G
             cpu: "7"
-            storage: 100G
+            ephemeral-storage: 100G
+        volumeMounts:
+        - name: infa_storage
+          mountPath: "/opt"
         lifecycle:
           preStop:
             exec:
@@ -61,3 +64,7 @@ spec:
                 key: password
       nodeSelector:
         cloud.google.com/gke-nodepool: infaagent-bq
+      volumes:
+      - name: infa_storage
+        emptyDir:
+          sizeLimit: 100G
