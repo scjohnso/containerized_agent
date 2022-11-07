@@ -32,9 +32,11 @@ spec:
           requests:
             memory: 28G
             cpu: "7"
+            ephemeral-storage: 50G
           limits:
             memory: 28G
             cpu: "7"
+            ephemeral-storage: 50G
         lifecycle:
           preStop:
             exec:
