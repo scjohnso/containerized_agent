@@ -1,4 +1,4 @@
-name: build-deploy-sql-container-standalone
+name: scale-down-at-5pm
 
 on:
   workflow_dispatch:
