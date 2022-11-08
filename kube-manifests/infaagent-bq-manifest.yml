@@ -67,4 +67,4 @@ spec:
       volumes:
       - name: tmp-storage
         emptyDir:
-          sizeLimit: 100G
+          sizeLimit: 150G
