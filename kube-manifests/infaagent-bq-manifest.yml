@@ -32,11 +32,11 @@ spec:
           requests:
             memory: 60G
             cpu: "15"
-            ephemeral-storage: 200G
+            ephemeral-storage: 150G
           limits:
             memory: 60G
             cpu: "15"
-            ephemeral-storage: 200G
+            ephemeral-storage: 150G
         volumeMounts:
         - name: tmp-storage
           mountPath: "/tmp"
