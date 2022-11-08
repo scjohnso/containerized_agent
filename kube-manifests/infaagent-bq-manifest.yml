@@ -38,8 +38,6 @@ spec:
             cpu: "7"
             ephemeral-storage: 50G
         volumeMounts:
-        - name: infa-storage
-          mountPath: "/opt"
         - name: tmp-storage
           mountPath: "/tmp"
         lifecycle:
@@ -67,9 +65,6 @@ spec:
       nodeSelector:
         cloud.google.com/gke-nodepool: infaagent-bq
       volumes:
-      - name: infa-storage
-        emptyDir:
-          sizeLimit: 25G
       - name: tmp-storage
         emptyDir:
-          sizeLimit: 25G
+          sizeLimit: 50G
