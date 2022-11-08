@@ -40,4 +40,6 @@ cd $INFA_SA_HOME/apps/agentcore/; ./consoleAgentManager.sh configureToken ${user
 export HOSTNAME=`hostname`
 echo "Server is running on ${HOSTNAME}"
 
+curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" -d "{\"Data_Integration_Server\":[{\"TOMCAT_JRE\":[{\"name\":\"INFA_MEMORY\",\"value\":\"'-Xms256m -Xmx2050m -XX:MaxPermSize=512m'\"}]},{\"PMRDTM_CFG\":[{\"name\":\"JVMOption1\",\"value\":\"'-Xmx2048m'\"}]}]}" https://na1.dm-us.informaticacloud.com/saas/api/v2/runtimeEnvironment/0121DD2500000000002L/configs
+
 trap - EXIT
