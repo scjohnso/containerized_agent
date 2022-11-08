@@ -14,8 +14,11 @@ env:
   RUNTIME_ENV: container_bq_test
 
 jobs:
-  docker:
-    name: "Build secure agent docker image"
+  scale-down:
+    name: "Scale down cluster"
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
