@@ -40,6 +40,6 @@ cd $INFA_SA_HOME/apps/agentcore/; ./consoleAgentManager.sh configureToken ${user
 export HOSTNAME=`hostname`
 echo "Server is running on ${HOSTNAME}"
 
-curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" -d "{\"Data_Integration_Server\":[{\"TOMCAT_JRE\":[{\"name\":\"INFA_MEMORY\",\"value\":\"'-Xms1024m -Xmx4096m -XX:MaxPermSize=512m'\"}]},{\"PMRDTM_CFG\":[{\"name\":\"JVMOption1\",\"value\":\"'-Xmx4096m'\"}]}]}" https://na1.dm-us.informaticacloud.com/saas/api/v2/runtimeEnvironment/0121DD2500000000002L/configs
+curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" -d "{\"Data_Integration_Server\":[{\"TOMCAT_JRE\":[{\"name\":\"INFA_MEMORY\",\"value\":\"'-Xms1024m -Xmx4096m -XX:MaxPermSize=512m'\"},{\"name\":\"ADD_ESCAPE_CHAR_TO_TARGET\",\"value\":\"true\",\"isCustom\":\"true\"}]},{\"PMRDTM_CFG\":[{\"name\":\"JVMOption1\",\"value\":\"'-Xmx4096m'\"}]},{\"TOMCAT_CFG\":[{\"name\":\"maxDTMProcesses\",\"value\":\"12\",\"isCustom\":\"true\"}]}]}" https://na1.dm-us.informaticacloud.com/saas/api/v2/runtimeEnvironment/0121DD2500000000002L/configs
 
 trap - EXIT
