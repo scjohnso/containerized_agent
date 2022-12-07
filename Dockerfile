@@ -12,7 +12,7 @@ ARG AGENT_DOWNLOAD=https://na1.dm-us.informaticacloud.com/saas/download/installe
 
 # Set environment
 ENV LOGIN_DOMAIN=dm-us
-
+ENV RUNTIME_NAME=${RUNTIME_ENV}
 ENV INFA_HOME=/opt/informatica
 ENV INFA_SA_HOME=${INFA_HOME}/secure_agent
 ENV AGENT_FILE=agent64_install_ext.bin
