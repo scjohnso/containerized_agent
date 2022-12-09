@@ -25,6 +25,7 @@ curl \
 ca-certificates \
 jq \
 libidn11 \
+nmon \
 && rm -rf /var/lib/apt/lists/*
 RUN locale-gen en_US.UTF-8
 
