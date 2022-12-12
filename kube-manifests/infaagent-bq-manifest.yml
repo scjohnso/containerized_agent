@@ -30,13 +30,13 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: 60G
+            memory: 120G
             cpu: "15"
-            ephemeral-storage: 100G
+            ephemeral-storage: 150G
           limits:
-            memory: 60G
+            memory: 120G
             cpu: "15"
-            ephemeral-storage: 100G
+            ephemeral-storage: 150G
         volumeMounts:
         - name: tmp-storage
           mountPath: "/tmp"
