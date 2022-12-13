@@ -44,6 +44,7 @@ RUN groupadd -g $GID agent \
 && useradd -ms /bin/bash -l -u $UID -g $GID agent \
 && chown agent:agent /usr/bin/login-agent.sh \
 && chmod a+x /usr/bin/login-agent.sh \
+&& chmod a+x /usr/bin/remove_secure_agents.sh \
 && chown agent:agent /usr/bin/iics-remove-agent.sh \
 && chmod a+x /usr/bin/iics-remove-agent.sh
 USER agent

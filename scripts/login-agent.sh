@@ -12,6 +12,8 @@ trap 'abort' EXIT
 username=$1
 password=$2
 
+./remove_secure_agents.sh $username $password
+
 echo Get LOGIN information
 SESSION_ID=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "{\"username\":\"${username}\",\"password\":\"${password}\"}" https://${LOGIN_DOMAIN}.informaticacloud.com/saas/public/core/v3/login | jq -r '.userInfo.sessionId')
 TOKEN=$(curl -H "icSessionid: $SESSION_ID" https://na1.dm-us.informaticacloud.com/saas/api/v2/agent/installerInfo/linux64 | jq -r '.installToken')
@@ -41,7 +43,6 @@ export HOSTNAME=`hostname`
 echo "Server is running on ${HOSTNAME}"
 
 ### Update new configs
-export RUNTIME_NAME=
 CONFIG_URL=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "{\"username\":\"${username}\",\"password\":\"${password}\"}" https://${LOGIN_DOMAIN}.informaticacloud.com/saas/public/core/v3/login | jq -r '.products[0].baseApiUrl')
 RUNTIME_ID=$(curl -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" ${CONFIG_URL}/api/v2/runtimeEnvironment/name/${RUNTIME_NAME} | jq -r '.id' )
 
