@@ -12,7 +12,7 @@ trap 'abort' EXIT
 username=$1
 password=$2
 
-./remove_secure_agents.sh $username $password
+remove_secure_agents.sh $username $password
 
 echo Get LOGIN information
 SESSION_ID=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "{\"username\":\"${username}\",\"password\":\"${password}\"}" https://${LOGIN_DOMAIN}.informaticacloud.com/saas/public/core/v3/login | jq -r '.userInfo.sessionId')
