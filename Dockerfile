@@ -37,6 +37,7 @@ RUN ln -s /usr/lib64/libnsl.so.2.0.0 /usr/lib64/libnsl.so.1
 # Copy the login/cleanup scripts from your local machine onto the Docker container.
 COPY ../scripts/login-agent.sh /usr/bin
 COPY ../scripts/iics-remove-agent.sh /usr/bin
+COPY ../scripts/remove-secure-agents.sh /usr/bin
 
 # Create a user on the container for the agent process to use. Change the ownership and permissions of the login scripts so that the agent user can run them.
 RUN groupadd -g $GID agent \

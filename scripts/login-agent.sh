@@ -41,8 +41,9 @@ export HOSTNAME=`hostname`
 echo "Server is running on ${HOSTNAME}"
 
 ### Update new configs
+export RUNTIME_NAME=
 CONFIG_URL=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "{\"username\":\"${username}\",\"password\":\"${password}\"}" https://${LOGIN_DOMAIN}.informaticacloud.com/saas/public/core/v3/login | jq -r '.products[0].baseApiUrl')
-RUNTIME_ID=$(curl -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" https://na1.dm-us.informaticacloud.com/saas/api/v2/runtimeEnvironment/name/${RUNTIME_NAME} | jq -r '.id' )
+RUNTIME_ID=$(curl -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" ${CONFIG_URL}/api/v2/runtimeEnvironment/name/${RUNTIME_NAME} | jq -r '.id' )
 
 echo "Updating configuration on ${RUNTIME_NAME} using ${RUNTIME_ID} ID"
 curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -H "icSessionid: $SESSION_ID" -d "{\"Data_Integration_Server\":[{\"TOMCAT_JRE\":[{\"name\":\"INFA_MEMORY\",\"value\":\"'-Xms1024m -Xmx4096m -XX:MaxPermSize=512m'\"},{\"name\":\"ADD_ESCAPE_CHAR_TO_TARGET\",\"value\":\"true\",\"isCustom\":\"true\"}]},{\"PMRDTM_CFG\":[{\"name\":\"JVMOption1\",\"value\":\"'-Xmx4096m'\"}]},{\"TOMCAT_CFG\":[{\"name\":\"maxDTMProcesses\",\"value\":\"12\",\"isCustom\":\"true\"}]}]}" ${CONFIG_URL}/api/v2/runtimeEnvironment/${RUNTIME_ID}/configs
