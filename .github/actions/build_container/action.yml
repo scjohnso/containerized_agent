@@ -34,9 +34,6 @@ inputs:
   GOOGLE_SERVICE_ACCOUNT:
     description: Service account name for Workload Federation
     default: srv-diteam@gcp-product-spec-iics-cdie.iam.gserviceaccount.com
-  USE_GKE_GCLOUD_AUTH_PLUGIN:
-    description: Use gke auth plugin
-    default: "True"
 
 
 runs:
@@ -84,12 +81,16 @@ runs:
        # Get the GKE credentials so we can deploy to the cluster
       - name: Login to GKE cluster
         shell: sh
+        env: 
+          USE_GKE_GCLOUD_AUTH_PLUGIN: 'True'
         run: |-
           gcloud container clusters get-credentials "${{ inputs.GKE_CLUSTER }}" --zone "${{ inputs.GKE_ZONE }}"
       
       # Deploy sample image to the GKE cluster
       - name: Deploy
         shell: sh
+        env: 
+          USE_GKE_GCLOUD_AUTH_PLUGIN: 'True'
         run: |-
           kubectl apply -f ./kube-manifests/${{ inputs.DEPLOYMENT_NAME }}-manifest.yml
           kubectl rollout status --namespace=${{ inputs.NAMESPACE }} deployment/${{ inputs.DEPLOYMENT_NAME }}
