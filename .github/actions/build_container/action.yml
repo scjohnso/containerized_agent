@@ -30,10 +30,14 @@ inputs:
     default: secure-agent-test
   GOOGLE_WORKLOAD_PROVIDER:
     description: Location of google workload Federation
-    default: projects/493022562702/locations/global/workloadIdentityPools/secure-agent-id-pool/providers/sa-provider
+    default: projects/481897807876/locations/global/workloadIdentityPools/secure-agent-id-pool/providers/sa-provider-gh
   GOOGLE_SERVICE_ACCOUNT:
     description: Service account name for Workload Federation
-    default: gh-deployer@secure-agent-container.iam.gserviceaccount.com
+    default: srv-diteam@gcp-product-spec-iics-cdie.iam.gserviceaccount.com
+  USE_GKE_GCLOUD_AUTH_PLUGIN:
+    description: Use gke auth plugin
+    default: "True"
+
 
 runs:
   using: "composite"
@@ -67,6 +71,10 @@ runs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
 
+      - name: 'Install gke auth plugin'
+        shell: sh
+        run: 'gcloud components install gke-gcloud-auth-plugin'
+      
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
