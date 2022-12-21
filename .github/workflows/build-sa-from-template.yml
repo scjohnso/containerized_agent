@@ -31,8 +31,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - deployment: infaagent-sql
-            runtime_env: container_sql_test
           - deployment: infaagent-bq
             runtime_env: container_bq_test
 
