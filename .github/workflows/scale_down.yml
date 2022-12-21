@@ -39,5 +39,6 @@ jobs:
       
       # Deploy sample image to the GKE cluster
       - name: Deploy
+        continue-on-error: true
         run: |-
           kubectl scale --replicas=1 deployment/$DEPLOYMENT_NAME --namespace secure-agent-test
